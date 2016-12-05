@@ -1,11 +1,12 @@
 import logging
+import uuid
 
 DEFAULT_INPUT_COLOR = (.05, .95, .95)
 DEFAULT_OUTPUT_COLOR = (.95, .05, .95)
 
 
 class AbstractSlot(object):
-    def __init__(self, name, color=DEFAULT_INPUT_COLOR, parent_node=None):
+    def __init__(self, name, color=DEFAULT_INPUT_COLOR, id=None, parent_node=None):
         """
         Base class for slot object, slot hold methode for connect and disconnect node
         :param name: slot's name, also visible in node ui
@@ -16,6 +17,7 @@ class AbstractSlot(object):
         self.parent_node = parent_node
         self.name = name.capitalize()
         self.color = color
+        self.id = uuid.uuid4().int if id is None else id
         self.position = (0, 0)
         self.connected_slots = list()
         self.connected_edges = list()
@@ -43,20 +45,20 @@ class InputSlot(AbstractSlot):
         # Assert Type
         assert isinstance(output_slot, OutputSlot), "Connect Input to output only !"
         #loop breaker
-        def sss(node):
-            sss.looped = None
+        def loop(node):
+            loop.looped = None
             for slot in node.input_slots:
                 if len(slot.connected_slots) == 0:
                     continue
                 for output_slot in slot.connected_slots:
                     if output_slot.parent_node == self.parent_node:
-                        sss.looped = True
+                        loop.looped = True
                     else:
-                        sss.looped = False
-                        sss(output_slot.parent_node)
+                        loop.looped = False
+                        loop(output_slot.parent_node)
 
-        sss(output_slot.parent_node)
-        if sss.looped:
+        loop(output_slot.parent_node)
+        if loop.looped:
             print 'looped'
             return
         # If already connected
@@ -106,20 +108,20 @@ class OutputSlot(AbstractSlot):
         # Assert Type
         assert isinstance(input_slot, InputSlot), "Connect Output to input only !"
         #loop breaker
-        def sss(node):
-            sss.looped = None
+        def loop(node):
+            loop.looped = None
             for slot in node.output_slots:
                 if len(slot.connected_slots) == 0:
                     continue
                 for output_slot in slot.connected_slots:
                     if output_slot.parent_node == self.parent_node:
-                        sss.looped = True
+                        loop.looped = True
                     else:
-                        sss.looped = False
-                        sss(output_slot.parent_node)
+                        loop.looped = False
+                        loop(output_slot.parent_node)
 
-        sss(input_slot.parent_node)
-        if sss.looped:
+        loop(input_slot.parent_node)
+        if loop.looped:
             print 'looped'
             return
         # If already connected
