@@ -47,8 +47,6 @@ class SlotDotPySide(QGraphicsItem):
         self.color_brush = (0,0,0)
         self._slot_input_hovered = False
         self.dot_pos = self.mapToScene(self.input_rect)
-        #creation du path du slot 'nodename|slotname'
-        self.slot.path_name = self.slot.parent_node.name + '|' + self.slot.name
         #setflag pour hover et drops
         self.setAcceptHoverEvents(True)
         self.setAcceptDrops(True)
@@ -73,7 +71,7 @@ class SlotDotPySide(QGraphicsItem):
         #search the right slot item
         for item in self.scene().items():
             if isinstance(item, SlotPySide):
-                if item.objectName() == self.slot.connect_to:
+                if item.slot.id == self.slot.connect_to:
                     #connect them
                     self.slot.connect(item.slot)
                     #exit
@@ -93,7 +91,7 @@ class SlotDotPySide(QGraphicsItem):
         #mimeData creation for drag data
         self.mimePos = QMimeData()
         #Mime Data path name
-        self.mimePos.setText(self.slot.path_name)
+        self.mimePos.setText(str(self.slot.id))
 
         ##Warn Scene
         #set click pos to scene
@@ -122,7 +120,7 @@ class SlotDotPySide(QGraphicsItem):
 
     def dropEvent(self, event):
         #assign path name from mimeData dropped to connect_to
-        self.slot.connect_to = event.mimeData().text()
+        self.slot.connect_to = long(event.mimeData().text())
         #Call def for do connection
         self.eval_connection_slot()
 
