@@ -3,7 +3,7 @@ from PySide.QtCore import *
 from slotspyside import *
 
 WIDTH = 200
-HEADER_HEIGHT = 40
+HEADER_HEIGHT = 50
 ROW_HEIGHT = 25
 
 BACKGROUND_COLOR = (.22, .22, .22, 1)
@@ -255,11 +255,11 @@ class NodePySide(QGraphicsItem):  # Move all geometry computations in upper clas
         rect_header.setX(rect_header.x()+4)
         #draw line
         if not self.node.is_resizable:
-            line_rect = QRect(rect_header.x()-4, rect_header.y() + 32, rect_header.width()+4, 2)
+            line_rect = QRect(rect_header.x()-4, rect_header.y() + 42, rect_header.width()+4, 2)
             painter.setBrush(_color(self.node.color).lighter(130))
             painter.drawRect(line_rect)
-            line_rect = QRect(rect_header.x()-4, rect_header.y() + 34, rect_header.width()+4, 4)
-            painter.setBrush(_color(BACKGROUND_COLOR).darker(150))
+            line_rect = QRect(rect_header.x()-4, rect_header.y() + 44, rect_header.width()+4, 4)
+            painter.setBrush(_color(BACKGROUND_COLOR).darker(200))
             painter.drawRect(line_rect)
 
         # Frame
