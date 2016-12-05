@@ -220,6 +220,7 @@ class NodalScene(QGraphicsScene):
                 slot_dict = OrderedDict()
                 slot_dict['name'] = slot.name
                 slot_dict['color'] = slot.color
+                slot_dict['id'] = slot.id
                 # Append
                 node_dict['input_slots'].append(slot_dict)
 
@@ -229,6 +230,7 @@ class NodalScene(QGraphicsScene):
                 slot_dict = OrderedDict()
                 slot_dict['name'] = slot.name
                 slot_dict['color'] = slot.color
+                slot_dict['id'] = slot.id
                 # Append
                 node_dict['output_slots'].append(slot_dict)
 
@@ -272,7 +274,7 @@ class NodalScene(QGraphicsScene):
             input_slots = list()
             for input_dict in node_dict['input_slots']:
                 # Input Slot
-                slot = InputSlot(input_dict['name'], input_dict['color'])
+                slot = InputSlot(input_dict['name'], input_dict['color'], input_dict['id'])
                 # Append
                 input_slots.append(slot)
             # Set
@@ -283,7 +285,7 @@ class NodalScene(QGraphicsScene):
             output_slots = list()
             for output_dict in node_dict['output_slots']:
                 # Input Slot
-                slot = OutputSlot(output_dict['name'], output_dict['color'])
+                slot = OutputSlot(output_dict['name'], output_dict['color'], output_dict['id'])
                 # Append
                 output_slots.append(slot)
             # Set
